@@ -284,16 +284,10 @@
 </div>
 
 <script>
-  // Разворачиваем на весь экран и подстраиваем отступы под шапку Telegram
+  // Разворачиваем на весь экран
   if (window.Telegram && window.Telegram.WebApp) {
-    const tg = Telegram.WebApp;
-    tg.expand();
-    tg.ready();
-
-    // Динамически обновляем отступ если размер вьюпорта изменился
-    tg.onEvent('viewportChanged', function() {
-      tg.expand();
-    });
+    Telegram.WebApp.expand();
+    Telegram.WebApp.ready();
   }
 
   function formatDate(date) {
