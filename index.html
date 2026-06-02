@@ -284,10 +284,15 @@
 </div>
 
 <script>
-  // Разворачиваем на весь экран
+  // Разворачиваем на весь экран — скрываем контент до завершения анимации
   if (window.Telegram && window.Telegram.WebApp) {
+    document.body.style.opacity = '0';
     Telegram.WebApp.expand();
     Telegram.WebApp.ready();
+    setTimeout(() => {
+      document.body.style.transition = 'opacity 0.2s ease';
+      document.body.style.opacity = '1';
+    }, 200);
   }
 
   function formatDate(date) {
