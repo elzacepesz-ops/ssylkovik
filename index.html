@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ссылковик</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -12,7 +13,7 @@
       font-family: 'Montserrat', sans-serif;
       background: #ffffff;
       min-height: 100vh;
-      padding: 16px 16px 60px;
+      padding: max(16px, calc(var(--tg-safe-area-inset-top, 0px) + var(--tg-content-safe-area-inset-top, 0px) + 16px)) 16px 60px;
     }
 
     .card {
@@ -283,6 +284,18 @@
 </div>
 
 <script>
+  // Разворачиваем на весь экран и подстраиваем отступы под шапку Telegram
+  if (window.Telegram && window.Telegram.WebApp) {
+    const tg = Telegram.WebApp;
+    tg.expand();
+    tg.ready();
+
+    // Динамически обновляем отступ если размер вьюпорта изменился
+    tg.onEvent('viewportChanged', function() {
+      tg.expand();
+    });
+  }
+
   function formatDate(date) {
     const dd = String(date.getDate()).padStart(2, '0');
     const mm = String(date.getMonth() + 1).padStart(2, '0');
