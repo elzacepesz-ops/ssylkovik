@@ -12,14 +12,18 @@
     html {
       height: 100%;
       overflow: hidden;
+      overscroll-behavior: none;
     }
 
     body {
       font-family: 'Montserrat', sans-serif;
       background: #ffffff;
       height: 100%;
+      overflow-x: hidden;
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
+      overscroll-behavior: none;
+      touch-action: pan-y;
       padding: max(16px, calc(var(--tg-safe-area-inset-top, 0px) + var(--tg-content-safe-area-inset-top, 0px) + 16px)) 16px 60px;
     }
 
