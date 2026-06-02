@@ -2,17 +2,24 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, interactive-widget=resizes-content">
   <title>Ссылковик</title>
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
+    html {
+      height: 100%;
+      overflow: hidden;
+    }
+
     body {
       font-family: 'Montserrat', sans-serif;
       background: #ffffff;
-      min-height: 100vh;
+      height: 100%;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
       padding: max(16px, calc(var(--tg-safe-area-inset-top, 0px) + var(--tg-content-safe-area-inset-top, 0px) + 16px)) 16px 60px;
     }
 
@@ -286,29 +293,18 @@
 <script>
   if (window.Telegram && window.Telegram.WebApp) {
     const tg = Telegram.WebApp;
-
     document.body.style.opacity = '0';
     tg.expand();
     tg.ready();
 
-    function lockHeight() {
+    // Фиксируем высоту один раз — больше не меняем
+    setTimeout(() => {
       const h = tg.viewportStableHeight || window.innerHeight;
       document.documentElement.style.height = h + 'px';
-      document.documentElement.style.overflow = 'hidden';
       document.body.style.height = h + 'px';
-      document.body.style.overflowY = 'auto';
-      document.body.style.overflowX = 'hidden';
-    }
-
-    setTimeout(() => {
-      lockHeight();
       document.body.style.transition = 'opacity 0.2s ease';
       document.body.style.opacity = '1';
-    }, 200);
-
-    tg.onEvent('viewportChanged', function(e) {
-      if (e.isStateStable) lockHeight();
-    });
+    }, 250);
   }
 
   function formatDate(date) {
