@@ -284,15 +284,31 @@
 </div>
 
 <script>
-  // Разворачиваем на весь экран — скрываем контент до завершения анимации
   if (window.Telegram && window.Telegram.WebApp) {
+    const tg = Telegram.WebApp;
+
     document.body.style.opacity = '0';
-    Telegram.WebApp.expand();
-    Telegram.WebApp.ready();
+    tg.expand();
+    tg.ready();
+
+    function lockHeight() {
+      const h = tg.viewportStableHeight || window.innerHeight;
+      document.documentElement.style.height = h + 'px';
+      document.documentElement.style.overflow = 'hidden';
+      document.body.style.height = h + 'px';
+      document.body.style.overflowY = 'auto';
+      document.body.style.overflowX = 'hidden';
+    }
+
     setTimeout(() => {
+      lockHeight();
       document.body.style.transition = 'opacity 0.2s ease';
       document.body.style.opacity = '1';
     }, 200);
+
+    tg.onEvent('viewportChanged', function(e) {
+      if (e.isStateStable) lockHeight();
+    });
   }
 
   function formatDate(date) {
